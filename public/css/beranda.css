@@ -1,0 +1,188 @@
+.navbar {
+  background-color: rgb(191, 89, 38);
+  width: 100%;
+  margin: 0;
+  padding: 10px 0;
+  
+  top: 0;
+  z-index: 999;
+}
+
+.navbar-brand img {
+  width: 120px;
+  height: auto;
+}
+
+.navbar .nav-link {
+  color: #fff !important;
+  font-weight: 500;
+}
+
+.navbar .nav-link.active {
+  font-weight: bold;
+  text-decoration: none; /* param before is underline*/
+}
+
+.navbar .form-control {
+  width: 200px;
+}
+
+.navbar .btn {
+  background-color: #000;
+  color: #fff;
+  border: none;
+  padding: 6px 12px;
+}
+a:link {
+  background-color: transparent;
+  text-decoration: none;
+}
+.card-beranda .location-img{
+    object-fit: cover;
+    width: 100%;
+    height: 300;
+}
+
+.hero-section{
+    background-color: rgb(191, 89, 38);
+    padding: 10px;
+    margin-top: 4rem;
+    
+    
+
+}
+
+.hero-section .location-img{
+    border-radius: 10px;
+}
+
+.hero-section h2{
+    color: white;
+    font-family: "Montserrat", sans-serif;
+}
+
+.hero-section p{
+    color: white;
+    font-size: 20px;
+}
+
+.hero-section-menu{
+   position: relative;
+    padding:20px;
+    background-color: rgb(191, 89, 38);
+    
+}
+
+.hero-section-menu h2{
+    color: rgb(0, 0, 0);
+
+}
+
+.hero-section-menu p{
+    color: rgb(0, 0, 0);
+}
+
+.hero-section-menu .menu-card{
+    background-color: #fff;
+    border-radius: 20px;
+
+}
+.menu-card .list-menu-detail{
+    text-align: center;
+}
+
+.menu-card p{
+    text-align: center;
+}
+
+.menu-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 15px;
+}
+
+.menu-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.menu-card {
+  background-color: #fff;
+  border-radius: 20px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Halaman Kerajang */
+.cart-page {
+  background-color: #612204;
+  min-height: 100vh;
+}
+
+.cart-item img {
+  object-fit: cover;
+  height: 180px;
+}
+
+.delivery-section {
+  background-color: #9d3706;
+  border-radius: 10px;
+  padding: 2rem 1rem;
+}
+
+.delivery-option {
+  width: 150px;
+  border: none;
+  background-color: #fff9f9;
+  border-radius: 10px;
+  transition: 0.3s;
+}
+
+.delivery-option:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.address-box {
+  font-family: "Poppins", sans-serif;
+}
+
+.btn-warning {
+  background-color: #700e0e;
+  border: none;
+}
+
+.btn-warning:hover {
+  background-color: #9d3706;
+}
+
+.option-btn {
+  transition: all 0.2s ease;
+  background-color: #fff;
+}
+
+.option-btn.active {
+  background-color: #ffc107; /* yellow highlight */
+  color: #000;
+}
+
+.option-btn.active small {
+  color: #000;
+}
+
+.option-btn img {
+  filter: none;
+}
+
+.option-btn.active img {
+  filter: brightness(0.9);
+}
+
+.option-btn .check-icon {
+  font-size: 1.2rem;
+}
+
