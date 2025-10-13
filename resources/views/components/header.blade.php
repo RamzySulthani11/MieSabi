@@ -5,6 +5,7 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Bootstrap demo</title>
@@ -46,8 +47,18 @@
           <form class="d-flex me-3" role="search">
             <input class="form-control" type="search" placeholder="Search" aria-label="Search" />
           </form>
-          <button class="btn btn-dark"><a href="/login" text-decoration="none"> Log out</a></button>
-        </div>
-      </div>
-    </div>
-  </nav>
+          <button class="btn btn-dark">
+            <!-- Authentication -->
+             <form method="POST" action="{{ route('logout') }}">
+              @csrf
+              <x-responsive-nav-link :href="route('logout')"
+                  onclick="event.preventDefault();
+                  this.closest('form').submit();">
+                      {{ __('Log Out') }}
+              </x-responsive-nav-link>
+            </form>
+                  </button>
+                  </div>
+                </div>
+              </div>
+            </nav>

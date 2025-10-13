@@ -27,6 +27,10 @@ Route::get('/beranda', function () {
     return view('beranda');
 });
 
+Route::get('/beranda', function () {
+    return view('beranda');
+})->middleware(['auth', 'verified'])->name('beranda');
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');

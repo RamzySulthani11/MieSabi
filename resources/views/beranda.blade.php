@@ -1,4 +1,6 @@
 <x-header/>
+<div><h4>Selamat Datang, {{ Auth::user()->name }}</h4></div>
+
 <div class="hero-section mx-5">
         <div class="container">
             <div class="row">
@@ -7,7 +9,6 @@
                         <img class="location-img" src="{{ asset('img/location.png') }}" width="100%" height="600" alt="">
                     </div>
                 </div>
-
                 <div class="col-md-6">
                     <div class="card-beranda">
                         <h2><img src="{{ asset('img/logo.png') }}" width="100px" alt=""> About</h2>
