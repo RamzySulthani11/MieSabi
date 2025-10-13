@@ -39,7 +39,7 @@
           <li class="nav-item"><a class="nav-link active" href="/beranda">Dashboard</a></li>
           <li class="nav-item"><a class="nav-link " href="/menu">Menu</a></li>
           <li class="nav-item"><a class="nav-link" href="/keranjang">Keranjang</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">Pesanan</a></li>
+          <li class="nav-item"><a class="nav-link" href="/pesanan">Pesanan</a></li>
           <li class="nav-item"><a class="nav-link" href="#">Ulasan</a></li>
         </ul>
 

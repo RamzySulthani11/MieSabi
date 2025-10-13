@@ -23,8 +23,11 @@ Route::get('/menu', function () {
 Route::get('/keranjang', function () {
     return view('keranjang');
 });
-Route::get('/beranda', function () {
-    return view('beranda');
+Route::get('/rincian', function () {
+    return view('components.rincian-harga');
+});
+Route::get('/pesanan', function () {
+    return view('pesanan');
 });
 
 Route::get('/beranda', function () {
