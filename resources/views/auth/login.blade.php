@@ -45,7 +45,9 @@
 
         <button class="btn-google mt-2">
             <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="20">
-            Sign in with Google
+            <a href="{{ route('google.login') }}">
+                Sign in with Google
+            </a>
         </button>
 
         @if (Route::has('password.request'))
