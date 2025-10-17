@@ -9,6 +9,8 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\DB;
+use App\Models\User;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -22,14 +24,22 @@ class AuthenticatedSessionController extends Controller
 
     /**
      * Handle an incoming authentication request.
-     */
+     */     
     public function store(LoginRequest $request): RedirectResponse
-    {
+    {   
+        $role = DB::table('users')->where('email', $request->email)->value('role');
+        var_dump($role);
         $request->authenticate();
 
         $request->session()->regenerate();
 
-        return redirect()->intended(RouteServiceProvider::HOME);
+        session(['role' => $role]);
+
+        if($role == '1'){
+            return redirect()->intended('/admin-dashboard');
+        }else{
+            return redirect()->intended(RouteServiceProvider::HOME);
+        }
     }
 
     /**
@@ -42,6 +52,8 @@ class AuthenticatedSessionController extends Controller
         $request->session()->invalidate();
 
         $request->session()->regenerateToken();
+
+        $request->session()->forget('role');
 
         return redirect('/login');
     }

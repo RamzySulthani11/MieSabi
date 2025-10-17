@@ -101,11 +101,18 @@
         <!-- Navbar Links -->
         <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
           <ul class="navbar-nav gap-5">
-            <li class="nav-item"><a class="nav-link active" href="/beranda">Dashboard</a></li>
-            <li class="nav-item"><a class="nav-link" href="/menu">Menu</a></li>
-            <li class="nav-item"><a class="nav-link" href="/keranjang">Keranjang</a></li>
-            <li class="nav-item"><a class="nav-link" href="/pesanan">Pesanan</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Ulasan</a></li>
+            @if($role == '1')
+              <li class="nav-item"><a class="nav-link active" href="/admin-dashboard">Dashboard</a></li>
+              <li class="nav-item"><a class="nav-link fw-bold" href="{{route('admin.produk')}}">Produk</a></li>
+              <li class="nav-item"><a class="nav-link active" href="{{route ('admin.riwayat-pesanan')}}">Riwayat</a></li>
+            @elseif ($role == '0')
+              <li class="nav-item"><a class="nav-link active" href="/beranda">Dashboard</a></li>
+              <li class="nav-item"><a class="nav-link" href="/menu">Menu</a></li>
+              <li class="nav-item"><a class="nav-link" href="/keranjang">Keranjang</a></li>
+              <li class="nav-item"><a class="nav-link" href="/pesanan">Pesanan</a></li>
+              <li class="nav-item"><a class="nav-link" href="#">Ulasan</a></li>
+              <li class="nav-item"><a class="nav-link" href="#">{{ $role }}</a></li>
+            @endif
           </ul>
 
           <!-- Right Side: Search + Logout -->
