@@ -38,8 +38,14 @@ Route::post('/keranjang/update-variant/{code_product}', [CartController::class, 
 // Route::get('/keranjang', function () {
 //     return view('keranjang');
 // });
-Route::get('/rincian', [OrderController::class, 'create'])->name('order.create');
-Route::post('/rincian/store', [OrderController::class, 'store'])->name('order.store');
+// Route::get('/rincian', [OrderController::class, 'create'])->name('order.create');
+// Route::post('/rincian/store', [OrderController::class, 'store'])->name('order.store');
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/rincian-harga', [OrderController::class, 'create'])->name('order.create');
+    Route::post('/rincian-harga', [OrderController::class, 'store'])->name('order.store');
+    Route::get('/orders/{id}', [OrderController::class, 'show'])->name('order.show');
+});
 
 Route::get('/orders/history', [OrderController::class, 'history'])->name('admin.riwayat-pesanan');
 

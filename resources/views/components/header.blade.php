@@ -67,6 +67,10 @@
         margin: 0.5rem 0;
         background-color: #ddd;
       }
+      .readonly-select {
+        pointer-events: none; /* prevents clicking */
+        background-color: #e9ecef; /* Bootstrap gray background like readonly inputs */
+      }
     </style>
   </head>
 
@@ -111,7 +115,6 @@
               <li class="nav-item"><a class="nav-link" href="/keranjang">Keranjang</a></li>
               <li class="nav-item"><a class="nav-link" href="/pesanan">Pesanan</a></li>
               <li class="nav-item"><a class="nav-link" href="#">Ulasan</a></li>
-              <li class="nav-item"><a class="nav-link" href="#">{{ $role }}</a></li>
             @endif
           </ul>
 

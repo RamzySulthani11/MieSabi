@@ -6,80 +6,92 @@
 
 <div class="container-fluid min-vh-100 d-flex justify-content-center align-items-center" style="background-color: #a04c00;">
     <div class="card shadow border-0" style="width: 420px; border-radius: 15px;">
-        <div class="card-body" style="background-color: #fff; border-radius: 15px;">
-            <h5 class="fw-bold mb-3">Rincian Harga</h5>
-            <?= var_dump($cart)?>
-            <h6 class="fw-semibold mb-3">Total Pesanan</h6>
+        <form action="{{ route('order.store') }}" method="POST" class="mb-4">
+            @csrf
+                <div class="card-body" style="background-color: #fff; border-radius: 15px;">
+                    <h5 class="fw-bold mb-3">Rincian Harga</h5>
+                    <? //var_dump($cart)?>
+                    <h6 class="fw-semibold mb-3">Total Pesanan</h6>
 
-            @php
-                $total = 0;
-            @endphp
+                    @php
+                        $total = 0;
+                    @endphp
 
-            @foreach ($cart as $item)
-                @php
-                    $subtotal = $item['price'] * $item['quantity'];
-                    $total += $subtotal;
-                @endphp
-                <div class="mb-3 d-flex justify-content-between">
-                    <div>
-                        <p class="mb-0">{{ $item['name'] }}<br>
-                            <small>
-                                @foreach ($item['variants'] as $variant => $value)
-                                    @if ($value > 0)
-                                        {{ $variant }} ({{ $value }})@if (!$loop->last), @endif
-                                    @endif
-                                @endforeach
-                            </small>
-                        </p>
+                    @foreach ($cart as $item)
+                        @php
+                            $subtotal = $item['price'] * $item['quantity'];
+                            $total += $subtotal;
+                        @endphp
+                        <div class="mb-3 d-flex justify-content-between">
+                            <div>
+                                <p class="mb-0">{{ $item['name'] }}<br>
+                                    <small>
+                                        @foreach ($item['variants'] as $variant => $value)
+                                            @if ($value > 0)
+                                                {{ $variant }} ({{ $value }})@if (!$loop->last), @endif
+                                            @endif
+                                        @endforeach
+                                    </small>
+                                </p>
+                            </div>
+                            <div>
+                                <span class="small">x{{ $item['quantity'] }}</span>
+                                <span class="fw-semibold text-danger">Rp. {{ number_format($subtotal, 0, ',', '.') }}</span>
+                            </div>
+                        </div>
+                    @endforeach
+
+                    <hr>
+
+                    <!-- Select Pickup Method -->
+                    <h6 class="fw-semibold mb-3">Metode Pengambilan</h6>
+                    <div class="mb-3">
+                      <select name="metode_pengambilan" id="pickupMethod" class="form-select readonly-select">
+                          <option value="gerai" {{ session('pickup_method') === 'gerai' ? 'selected' : '' }}>Ambil di Gerai</option>
+                          <option value="antar" {{ session('pickup_method') === 'antar' ? 'selected' : '' }}>Diantar ke Lokasi</option>
+                        </select>
                     </div>
-                    <div>
-                        <span class="small">x{{ $item['quantity'] }}</span>
-                        <span class="fw-semibold text-danger">Rp. {{ number_format($subtotal, 0, ',', '.') }}</span>
+
+                    <!-- Payment Method -->
+                    <h6 class="fw-semibold mb-3">Jenis Pembayaran</h6>
+                    <div class="mb-3">
+                      <select name="jenis_pembayaran" id="paymentMethod" class="form-select">
+                        <option value="qris">QRIS</option>
+                        <option value="transfer">Transfer</option>
+                        <option value="tunai">Tunai</option>
+                      </select>
                     </div>
+
+                    <div class="d-flex justify-content-between mb-2">
+                      <span>Subtotal ({{ count($cart) }} Produk)</span>
+                      <span class="fw-semibold text-danger">Rp. {{ number_format($total, 0, ',', '.') }}</span>
+                    </div>
+
+                    @php
+                        $pickupMethod = session('pickup_method', 'gerai');
+                        $ongkir = $pickupMethod === 'antar' ? 10000 : 0;
+                        $finalTotal = $total + $ongkir;
+                    @endphp
+
+                    <div class="d-flex justify-content-between mb-2">
+                      <span>Ongkos Kirim 
+                        <small class="text-muted">
+                            ({{ $pickupMethod === 'antar' ? 'Diantar ke Lokasi' : 'Ambil di Gerai' }})
+                        </small>
+                      </span>
+                      <span class="fw-semibold text-danger">Rp. {{ number_format($ongkir, 0, ',', '.') }}</span>
+                    </div>
+
+                    <div class="d-flex justify-content-between mb-4">
+                      <span>Total Pembayaran</span>
+                      <span class="fw-semibold text-danger">Rp. {{ number_format($finalTotal, 0, ',', '.') }}</span>
+                    </div>
+
+                    <button type="submit" class="btn w-100 fw-semibold text-white" style="background-color: #7a0000; border-radius: 8px;">
+                        Buat Pesanan
+                    </button>
                 </div>
-            @endforeach
-
-            <hr>
-
-            <!-- Select Pickup Method -->
-            <h6 class="fw-semibold mb-3">Metode Pengambilan</h6>
-            <!-- <div class="mb-3">
-                <select id="pickupMethod" class="form-select" readonly>
-                    <option value="lokasi">Ambil di Lokasi (Gratis Ongkir)</option>
-                    <option value="antar">Diantar ke Lokasi (+Rp 10.000)</option>
-                </select>
-            </div> -->
-
-            <!-- Shipping and Totals -->
-            <div class="d-flex justify-content-between mb-2">
-                <span>Subtotal ({{ count($cart) }} Produk)</span>
-                <span id="subtotalDisplay" class="fw-semibold text-danger">Rp. {{ number_format($total, 0, ',', '.') }}</span>
-            </div>
-
-            @php
-                $pickupMethod = session('pickup_method', 'gerai');
-                $ongkir = $pickupMethod === 'antar' ? 10000 : 0;
-                $finalTotal = $total + $ongkir;
-            @endphp
-
-            <div class="d-flex justify-content-between mb-2">
-                <span>Ongkos Kirim 
-                    <small class="text-muted">
-                        ({{ $pickupMethod === 'antar' ? 'Diantar ke Lokasi' : 'Ambil di Gerai' }})
-                    </small>
-                </span>
-                <span class="fw-semibold text-danger">Rp. {{ number_format($ongkir, 0, ',', '.') }}</span>
-            </div>
-
-            <div class="d-flex justify-content-between mb-4">
-                <span>Total Pembayaran</span>
-                <span class="fw-semibold text-danger">Rp. {{ number_format($finalTotal, 0, ',', '.') }}</span>
-            </div>
-
-            <button class="btn w-100 fw-semibold text-white" style="background-color: #7a0000; border-radius: 8px;">
-                Buat Pesanan
-            </button>
-        </div>
+        </form>
     </div>
 </div>
 

@@ -34,6 +34,36 @@ class OrderController extends Controller
         return view('components.rincian-harga', compact('cart'));
     }
 
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'metode_pengambilan' => 'required|string',
+            'jenis_pembayaran' => 'required|string',
+        ]);
+
+        $cart = \App\Models\Cart::where('user_id', auth()->id())->with('items')->first();
+
+        if (!$cart || $cart->items->isEmpty()) {
+            return redirect()->back()->with('error', 'Keranjang kosong.');
+        }
+
+        $totalHarga = $cart->items->sum(fn($item) => $item->price * $item->quantity);
+        if ($validated['metode_pengambilan'] === 'antar') {
+            $totalHarga += 10000;
+        }
+
+        $order = \App\Models\Order::create([
+            'user_id' => auth()->id(),
+            'cart_id' => $cart->id,
+            'metode_pengambilan' => $validated['metode_pengambilan'],
+            'jenis_pembayaran' => $validated['jenis_pembayaran'],
+            'total_harga' => $totalHarga,
+            'status' => 'pending',
+        ]);
+
+        return redirect()->route('orders.show', $order->id)->with('success', 'Pesanan berhasil dibuat!');
+    }
+
     public function history(Request $request){
         // $query = Order::query();
 
