@@ -1,4 +1,4 @@
-@include ('components.header')
+<x-header/>
 <div class="container my-4">
     <h5 class="fw-bold mb-3">Status Pesanan</h5>
 
