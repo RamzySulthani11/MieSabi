@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Cart;
+use App\Models\Order;
+use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
@@ -11,9 +13,12 @@ class OrderController extends Controller
     {
         $pickupMethod = $request->input('pickup_method', 'gerai');
         session(['pickup_method' => $pickupMethod]);
-        
+    
         // Get the current user's cart
-        $cartModel = Cart::where('user_id', auth()->id())->with('items.product')->first();
+        $cartModel = Cart::where('user_id', auth()->id())
+                ->where('is_active', true)
+                ->with('items.product')
+                ->first();
 
         // If user has no cart yet, send empty array
         if (!$cartModel) {
@@ -41,7 +46,10 @@ class OrderController extends Controller
             'jenis_pembayaran' => 'required|string',
         ]);
 
-        $cart = \App\Models\Cart::where('user_id', auth()->id())->with('items')->first();
+        $cart = \App\Models\Cart::where('user_id', auth()->id())
+            ->where('is_active', true)
+            ->with('items')
+            ->first();
 
         if (!$cart || $cart->items->isEmpty()) {
             return redirect()->back()->with('error', 'Keranjang kosong.');
@@ -61,7 +69,31 @@ class OrderController extends Controller
             'status' => 'pending',
         ]);
 
-        return redirect()->route('orders.show', $order->id)->with('success', 'Pesanan berhasil dibuat!');
+        $cart->update(['is_active' => false]);
+
+        return redirect()->route('orders.show', $order->user_id)->with('success', 'Pesanan berhasil dibuat!');
+    }
+
+    public function show($user_id){
+
+        // $data = Order::Where('id',$user_id)->get();
+        $data = DB::table('orders')
+            ->join('carts', 'orders.cart_id', '=', 'carts.id')
+            ->join('cart_items', 'carts.id', '=', 'cart_items.cart_id')
+            ->join('product', 'cart_items.code_product', '=', 'product.code_product')
+            ->select(
+                'product.code_product as code_product',
+                'cart_items.name as Name',
+                'cart_items.quantity as Quantity',
+                DB::raw("CONCAT('Rp. ', FORMAT(cart_items.price, 0, 'id_ID')) as Price"),
+                'orders.metode_pengambilan as Metode_Pengambilan',
+                'orders.status as Status'
+            )
+            ->where('orders.user_id',$user_id)
+            ->where('carts.is_active',false)
+            ->get();
+
+        return view('pesanan',compact('data'));
     }
 
     public function history(Request $request){

@@ -11,7 +11,7 @@ class CartController extends Controller
 {
     public function index()
     {
-        $cart = Cart::firstOrCreate(['user_id' => auth()->id()]);
+        $cart = Cart::firstOrCreate(['user_id' => auth()->id(),'is_active' => true]);
         $items = $cart->items()->get();
 
         return view('keranjang', compact('items'));
@@ -19,7 +19,11 @@ class CartController extends Controller
 
     public function add(Request $request)
     {
-        $cart = Cart::firstOrCreate(['user_id' => auth()->id()]);
+
+        $userId = auth()->id();
+
+        // ✅ Get or create active cart only
+        $cart = Cart::firstOrCreate(['user_id' => $userId, 'is_active' => true]);
 
         $prod = $request->only(['code_product', 'name', 'price']);
 
@@ -32,12 +36,13 @@ class CartController extends Controller
             }
             echo var_dump($dbProduct);
         }
-
         $item = $cart->items()->where('code_product', $prod['code_product'])->first();
-
+        
         if ($item) {
+            // dd($item);
             $item->increment('quantity');
         } else {
+            // dd($cart->items);
             $cart->items()->create([
                 'code_product' => $prod['code_product'],
                 'name' => $prod['name'],
@@ -56,7 +61,9 @@ class CartController extends Controller
 
     public function update(Request $request, $code_product)
     {
-        $cart = Cart::where('user_id', auth()->id())->first();
+        $cart = Cart::where('user_id', auth()->id())
+                ->where('is_active', true)
+                ->first();
 
         if ($cart) {
             $item = $cart->items()->where('code_product', $code_product)->first();
@@ -78,7 +85,13 @@ class CartController extends Controller
 
     public function remove($code_product)
     {
-        $cart = Cart::where('user_id', auth()->id())->first();
+        $cart = Cart::where('user_id', auth()->id())
+                ->where('is_active', true)
+                ->first();
+
+        if (!$cart) {
+            dd('Cart tidak ditemukan untuk user_id: ' . auth()->id());
+        }
 
         if ($cart) {
             $cart->items()->where('code_product', $code_product)->delete();
@@ -89,7 +102,9 @@ class CartController extends Controller
 
     public function updateVariant(Request $request, $code_product)
 {
-    $cart = Cart::where('user_id', auth()->id())->first();
+    $cart = Cart::where('user_id', auth()->id())
+                ->where('is_active', true)
+                ->first();
 
     if (!$cart) {
         return response()->json(['error' => 'Cart not found'], 404);

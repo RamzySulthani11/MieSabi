@@ -6,15 +6,14 @@
     <div class="col-12 col-lg-6">
       <div class="p-4 rounded-3" style="background-color: #8C2C00; color: #fff;">
         <h4 class="fw-bold mb-4">Keranjang</h4>
-
         @if($items->count() > 0)
-          @foreach($items as $item)
-            @php
-              $qty = $item->quantity ?? 1;
-              $price = $item->price ?? 0;
-              $variants = $item->variants ?? ['Original' => 0, 'Yamin' => 0, 'Chili Oil' => 0];
-            @endphp
-              <div class="card mb-3 shadow-sm border-0">
+        @foreach($items as $item)
+        @php
+        $qty = $item->quantity ?? 1;
+        $price = $item->price ?? 0;
+        $variants = $item->variants ?? ['Original' => 0, 'Yamin' => 0, 'Chili Oil' => 0];
+        @endphp
+        <div class="card mb-3 shadow-sm border-0">
               <div class="row g-0">
                 <div class="col-4">
                   <img src="{{ asset('img/menu/' . $item->code_product . '.png') }}" 
@@ -123,8 +122,18 @@
           </div>
 
           <div class="mb-4">
-            <label class="form-label small text-warning">Masukkan alamat dan nomor Anda di sini...</label>
-            <textarea class="form-control" rows="3" placeholder="Alamat lengkap..."></textarea>
+            <label class="form-label small text-warning">Masukkan Catatan Pesanan anda...</label>
+            <textarea class="form-control" rows="3" placeholder="Masukkan Catatan Pesanan anda..." required></textarea>
+          </div>
+
+          <div class="mb-4">
+            <label class="form-label small text-warning" require>Masukkan alamat dan nomor Anda di sini...</label>
+            <textarea class="form-control" rows="3" placeholder="Alamat lengkap..." required></textarea>
+          </div>
+
+          <div class="mb-4">
+            <label class="form-label small text-warning">Masukkan Detail Alamat....</label>
+            <textarea class="form-control" rows="3" placeholder="RT/RW" required></textarea>
           </div>
 
           <div class="text-end">

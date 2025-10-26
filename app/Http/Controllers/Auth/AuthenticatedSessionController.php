@@ -27,15 +27,15 @@ class AuthenticatedSessionController extends Controller
      */     
     public function store(LoginRequest $request): RedirectResponse
     {   
-        $role = DB::table('users')->where('email', $request->email)->value('role');
-        var_dump($role);
+        $data = DB::table('users')->where('email', $request->email)->first(['role','id']);
+        var_dump($data);
         $request->authenticate();
 
         $request->session()->regenerate();
 
-        session(['role' => $role]);
+        session(['role' => $data->role,'id'=>$data->id]);
 
-        if($role == '1'){
+        if($data->role == '1'){
             return redirect()->intended('/admin-dashboard');
         }else{
             return redirect()->intended(RouteServiceProvider::HOME);

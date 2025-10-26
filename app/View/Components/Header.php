@@ -13,11 +13,13 @@ class Header extends Component
      */
 
     public $role;
+    public $user_id;
 
     
-    public function __construct($role = null)
+    public function __construct($role = null, $user_id = null)
     {
         $this->role = $role ?? session('role', '0');
+        $this->user_id = $user_id ?? auth()->id();
     }
 
     /**

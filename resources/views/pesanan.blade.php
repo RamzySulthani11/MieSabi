@@ -1,5 +1,6 @@
 <x-header/>
 <div class="container my-4">
+    <?= var_dump($data) ?>
     <h5 class="fw-bold mb-3">Status Pesanan</h5>
 
     <!-- Tabs -->
@@ -17,7 +18,6 @@
 
     <!-- Tab Contents -->
     <div class="tab-content bg-white p-3 rounded shadow-sm">
-
         <!-- Sedang Diproses -->
         <div class="tab-pane fade show active" id="proses">
             <div class="table-responsive">
@@ -33,21 +33,22 @@
                             <th>Action</th>
                         </tr>
                     </thead>
+                    @foreach ($data as $dt)
                     <tbody>
                         <tr>
-                            <td><img src="{{ asset('images/mieayam.jpg') }}" width="70" class="rounded"></td>
-                            <td><strong>Mie Ayam Komplit</strong></td>
-                            <td>2</td>
-                            <td>40.000</td>
-                            <td><em>Diantar ke lokasi</em></td>
-                            <td><span class="text-success fw-semibold">Diproses</span></td>
+                            <td><img src="{{ asset('img/menu/' . $dt->code_product . '.png') }}" width="70" class="rounded"></td>
+                            <td><strong>{{ $dt->Name }}</strong></td>
+                            <td>{{$dt->Quantity}}</td>
+                            <td>{{$dt->Price}}</td>
+                            <td><em>{{$dt->Metode_Pengambilan}}</em></td>
+                            <td><span class="text-success fw-semibold">{{$dt->Status}}</span></td>
                             <td><button class="btn btn-success btn-sm rounded-pill">Diterima</button></td>
                         </tr>
                     </tbody>
+                    @endforeach
                 </table>
             </div>
         </div>
-
         <!-- Pesanan Selesai -->
         <div class="tab-pane fade" id="selesai">
             <div class="table-responsive">
@@ -77,7 +78,7 @@
                 </table>
             </div>
         </div>
-
+    
         <!-- Riwayat Pesanan -->
         <div class="tab-pane fade" id="riwayat">
             <div class="table-responsive">

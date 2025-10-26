@@ -53,14 +53,21 @@
                     </div>
 
                     <!-- Payment Method -->
-                    <h6 class="fw-semibold mb-3">Jenis Pembayaran</h6>
-                    <div class="mb-3">
-                      <select name="jenis_pembayaran" id="paymentMethod" class="form-select">
-                        <option value="qris">QRIS</option>
-                        <option value="transfer">Transfer</option>
-                        <option value="tunai">Tunai</option>
-                      </select>
-                    </div>
+                 <h6 class="fw-semibold mb-3">Jenis Pembayaran</h6>
+                <div class="mb-3">
+                    <select name="jenis_pembayaran" id="paymentMethod" class="form-select">
+                        <option value="qris" selected>QRIS</option>
+                    </select>
+                </div>
+
+                <!-- Transfer Info (hidden by default) -->
+                <div id="qrisInfo" class="text-center mb-3">
+                    <p class="fw-semibold mb-2">Scan QRIS di bawah ini untuk pembayaran:</p>
+                    <img src="{{ asset('img/qr.jpg') }}" alt="QRIS Payment" class="img-fluid rounded shadow" style="max-width: 200px;">
+                    <p class="text-muted mt-2 mb-0"><small>Pastikan nama penerima sesuai dengan <b>MIESABI KEBON JERUK</b></small></p>
+                </div>
+
+
 
                     <div class="d-flex justify-content-between mb-2">
                       <span>Subtotal ({{ count($cart) }} Produk)</span>
@@ -103,7 +110,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const finalTotal = document.getElementById('finalTotal');
     const subtotalDisplay = document.getElementById('subtotalDisplay');
 
-    const subtotal = {{ $total }};
+    const subtotal = {{$total}};
     let shipping = 0;
 
     function updateTotal() {
@@ -119,6 +126,14 @@ document.addEventListener('DOMContentLoaded', function () {
             shipping = 0;
         }
         updateTotal();
+    });
+
+     paymentMethod.addEventListener('change', function () {
+        if (paymentMethod.value === 'QRIS') {
+            qrisInfo.style.display = 'blocked';
+        } else {
+            qrisInfo.style.display = 'none';
+        }
     });
 });
 </script>

@@ -44,14 +44,14 @@ Route::post('/keranjang/update-variant/{code_product}', [CartController::class, 
 Route::middleware(['auth'])->group(function () {
     Route::get('/rincian-harga', [OrderController::class, 'create'])->name('order.create');
     Route::post('/rincian-harga', [OrderController::class, 'store'])->name('order.store');
-    Route::get('/orders/{id}', [OrderController::class, 'show'])->name('order.show');
+    Route::get('/orders/{id}', [OrderController::class, 'show'])->name('orders.show');
 });
 
 Route::get('/orders/history', [OrderController::class, 'history'])->name('admin.riwayat-pesanan');
 
-Route::get('/pesanan', function () {
-    return view('pesanan');
-});
+// Route::get('/pesanan', function () {
+//     return view('pesanan')->name('order.show');
+// });
 
 Route::get('/beranda', function () {
     return view('beranda');
