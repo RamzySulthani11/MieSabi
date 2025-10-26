@@ -66,10 +66,10 @@
                     <tbody>
                         <tr>
                             <td><img src="{{ asset('images/nasigoreng.jpg') }}" width="70" class="rounded"></td>
-                            <td><strong>Nasi Goreng Spesial</strong></td>
-                            <td>1</td>
-                            <td>25.000</td>
-                            <td><em>Ambil sendiri</em></td>
+                            <td><strong>Mie Ayam Komplit</strong></td>
+                            <td>2</td>
+                            <td>40.000</td>
+                            <td><em>Diantar ke lokasi</em></td>
                             <td><span class="text-primary fw-semibold">Selesai</span></td>
                             <td><button class="btn btn-outline-primary btn-sm rounded-pill">Ulas</button></td>
                         </tr>
@@ -96,9 +96,9 @@
                     <tbody>
                         <tr>
                             <td><img src="{{ asset('images/sate.jpg') }}" width="70" class="rounded"></td>
-                            <td><strong>Sate Ayam</strong></td>
-                            <td>3</td>
-                            <td>60.000</td>
+                            <td><strong>Mie Ayam Komplit</strong></td>
+                            <td>2</td>
+                            <td>40.000</td>
                             <td>10 Oktober 2025</td>
                             <td><span class="text-secondary fw-semibold">Selesai</span></td>
                             <td><button class="btn btn-outline-secondary btn-sm rounded-pill">Pesan Lagi</button></td>
